@@ -1,7 +1,7 @@
-# bun-template
-Bun template for creating projects using bunjs
+# texture-slot-allocator
+Component for allocating texture slots for spritesheets, for use in WebGL projects.
 
-![](https://jacklehamster.github.io/bun-template/icon.png)
+![](https://jacklehamster.github.io/texture-slot-allocator/icon.png)
 ## Install bun
 
 https://bun.sh/
@@ -21,8 +21,8 @@ curl -fsSL https://bun.sh/install | bash
 
 ## Run example
 
-[https://jacklehamster.github.io/bun-template/example/](https://jacklehamster.github.io/bun-template/example/)
+[https://jacklehamster.github.io/texture-slot-allocator/example/](https://jacklehamster.github.io/texture-slot-allocator/example/)
 
 ## Github Source
 
-[https://github.com/jacklehamster/bun-template/](https://github.com/jacklehamster/bun-template/)
+[https://github.com/jacklehamster/texture-slot-allocator/](https://github.com/jacklehamster/texture-slot-allocator/)
