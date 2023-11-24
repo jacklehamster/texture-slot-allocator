@@ -18,25 +18,21 @@ self.onmessage = async function(event) {
     return canvas;
   }
 
-  function addImage(width, height, cols = 1, rows = 1) {
+  function addImage(id, width, height, cols = 1, rows = 1) {
     const color = `rgb(${200 + Math.random() * 55}, ${
         200 + Math.random() * 55}, ${200 + Math.random() * 55})`;
     const canvas = createCanvas(width, height, color);
-    imagePacker.addImage(canvas, cols, rows);
+    imagePacker.addImage(id, canvas, cols, rows);
   }
 
   for (let i = 0; i < 100; i++) {
     const w = Math.random() * 32;
     const h = Math.random() * 32;
-    addImage(Math.ceil(w * w), Math.ceil(h * h));
+    addImage(`image_${i}`, Math.ceil(w * w), Math.ceil(h * h));
   }
 
-  const canvases =
-      await imagePacker.pack({maxTextureSize: 2048, numTextureSheets: 16});
-  // Create ImageBitmaps from the canvases
-  const imageBitmaps =
-      await Promise.all(canvases.map(canvas => createImageBitmap(canvas)));
+  const {images, compact, textureSize} = await imagePacker.pack();
 
   // Transfer the ImageBitmaps
-  postMessage(imageBitmaps, imageBitmaps);
+  postMessage({images, compact, textureSize}, images);
 };

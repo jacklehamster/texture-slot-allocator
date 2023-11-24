@@ -1,3 +1,4 @@
+import { Slot, TextureSize } from "texture/TextureSlot";
 import { Props } from "texture/TextureSlotAllocator";
 /**
  * ImagePacker
@@ -7,6 +8,7 @@ import { Props } from "texture/TextureSlotAllocator";
  */
 type ImageSource = CanvasImageSource | string;
 type ImageInfo = {
+    id: string;
     image: ImageSource;
     rows?: number;
     cols?: number;
@@ -14,10 +16,18 @@ type ImageInfo = {
 export declare class ImagePacker {
     readonly images: ImageInfo[];
     constructor(images?: ImageInfo[]);
-    addImage(image: CanvasImageSource, cols?: number, rows?: number): void;
+    addImage(id: string, image: CanvasImageSource, cols?: number, rows?: number): void;
     clear(): void;
     getImage(src: string): Promise<ImageBitmap>;
     loadImage(image: ImageSource): Promise<CanvasImageSource>;
-    pack(props?: Props): Promise<OffscreenCanvas[]>;
+    pack(props?: Props): Promise<{
+        images: ImageBitmap[];
+        slots: {
+            id: string;
+            slot: Slot;
+        }[];
+        compact: Record<string, string>;
+        textureSize: TextureSize;
+    }>;
 }
 export {};

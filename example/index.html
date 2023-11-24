@@ -9,7 +9,7 @@
     }
   </style>
   <body>
-    <h1 id="h1">Example packing 100 random sprites (size 1-1000)</h1>
+    <h1 id="h1">Example packing 100 sprites (size 1-1000) into textures of size 4096x4096</h1>
     <div id="root"> </div>
   </body>
   <script>
@@ -21,7 +21,7 @@
     const worker = new Worker('worker.mjs', { type: 'module' });
 
     worker.onmessage = function(event) {
-      const images = event.data;
+      const {images, compact, textureSize} = event.data;
       root.innerHTML = "";
       for (const image of images) {
         const c = document.createElement('canvas');
@@ -33,6 +33,8 @@
         c.getContext("2d").drawImage(image, 0, 0);
         root.appendChild(c);
       }
+      console.log(textureSize);
+      console.log(compact);
     };
 
     // To start the worker, post a message to it

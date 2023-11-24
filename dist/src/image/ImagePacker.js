@@ -1,11 +1,12 @@
+import { TextureSlot } from "texture/TextureSlot";
 import { TextureSlotAllocator } from "texture/TextureSlotAllocator";
 export class ImagePacker {
     images;
     constructor(images = []) {
         this.images = images;
     }
-    addImage(image, cols = 1, rows = 1) {
-        this.images.push({ image, cols, rows });
+    addImage(id, image, cols = 1, rows = 1) {
+        this.images.push({ id, image, cols, rows });
     }
     clear() {
         this.images.length = 0;
@@ -33,6 +34,7 @@ export class ImagePacker {
             const cols = image.cols || 1;
             const rows = image.rows || 1;
             return {
+                id: image.id,
                 image: await this.loadImage(image.image),
                 cols, rows,
                 spriteWidth: width / cols,
@@ -46,8 +48,9 @@ export class ImagePacker {
             const size2 = info2.cols * info2.spriteWidth + info2.rows * info2.spriteHeight;
             return size2 - size1;
         });
+        const slots = [];
         imageInfos.forEach(imageInfo => {
-            const { image, spriteWidth, spriteHeight, count } = imageInfo;
+            const { id, image, spriteWidth, spriteHeight, count } = imageInfo;
             const slot = allocator.allocate(spriteWidth, spriteHeight, count);
             if (slot.textureIndex >= canvases.length) {
                 const canvas = new OffscreenCanvas(allocator.maxTextureSize, allocator.maxTextureSize);
@@ -67,8 +70,14 @@ export class ImagePacker {
                 const y = slot.y + Math.floor(i / slotRows) * spriteHeight;
                 ctx.drawImage(image, 0, 0, spriteWidth, spriteHeight, x, y, spriteWidth, spriteHeight);
             }
+            slots.push({ id, slot });
         });
-        return canvases;
+        slots.sort((a, b) => a.id.localeCompare(b.id));
+        const compact = slots.map(({ id, slot }) => ([id, TextureSlot.getTag(slot)]));
+        const images = await Promise.all(canvases.map(canvas => createImageBitmap(canvas)));
+        return {
+            images, slots, compact: Object.fromEntries(compact), textureSize: allocator.maxTextureSize,
+        };
     }
 }
 //# sourceMappingURL=ImagePacker.js.map

@@ -36,7 +36,7 @@ export class TextureSlot {
         return TextureSlot.getTag(this);
     }
     static getTag(slot) {
-        return `${slot.size[0]}x${slot.size[1]}-#${slot.slotNumber}-[${slot.textureIndex}]`;
+        return `${slot.size[0]}x${slot.size[1]}-#${slot.slotNumber}`;
     }
     static positionToTextureSlot(x, y, size, textureIndex, parent) {
         const [w, h] = size;

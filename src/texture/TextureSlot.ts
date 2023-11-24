@@ -52,7 +52,7 @@ export class TextureSlot implements Slot {
   }
 
   static getTag(slot: Slot) {
-    return `${slot.size[0]}x${slot.size[1]}-#${slot.slotNumber}-[${slot.textureIndex}]`;
+    return `${slot.size[0]}x${slot.size[1]}-#${slot.slotNumber}`;
   }
 
   static positionToTextureSlot(x: number, y: number, size: [TextureSize, TextureSize], textureIndex: TextureIndex, parent: TextureSlot): TextureSlot {

@@ -1,3 +1,4 @@
+import { Slot, TextureSize, TextureSlot } from "texture/TextureSlot";
 import { Props, TextureSlotAllocator } from "texture/TextureSlotAllocator";
 
 /**
@@ -8,6 +9,7 @@ import { Props, TextureSlotAllocator } from "texture/TextureSlotAllocator";
  */
 type ImageSource = CanvasImageSource | string;
 type ImageInfo = {
+  id: string;
   image: ImageSource;
   rows?: number;
   cols?: number;
@@ -17,8 +19,8 @@ export class ImagePacker {
   constructor(public readonly images: ImageInfo[] = []) {
   }
 
-  addImage(image: CanvasImageSource, cols: number = 1, rows: number = 1) {
-    this.images.push({ image, cols, rows });
+  addImage(id: string, image: CanvasImageSource, cols: number = 1, rows: number = 1) {
+    this.images.push({ id, image, cols, rows });
   }
 
   clear() {
@@ -38,10 +40,18 @@ export class ImagePacker {
     return await this.getImage(image);
   }
 
-  async pack(props: Props = {}): Promise<OffscreenCanvas[]> {
+  async pack(props: Props = {}): Promise<{
+    images: ImageBitmap[],
+    slots: {
+      id: string;
+      slot: Slot,
+    }[],
+    compact: Record<string, string>,
+    textureSize: TextureSize,
+  }> {
     const canvases: OffscreenCanvas[] = [];
 
-    const imageInfos: { image: CanvasImageSource, cols: number, rows: number, spriteWidth: number, spriteHeight: number, count: number }[] = await Promise.all(this.images.map(async image => {
+    const imageInfos: { id: string, image: CanvasImageSource, cols: number, rows: number, spriteWidth: number, spriteHeight: number, count: number }[] = await Promise.all(this.images.map(async image => {
       const img: any = image.image;
       if (typeof (img) === "string") {
         throw new Error("ImagePacker: image is not loaded");
@@ -52,6 +62,7 @@ export class ImagePacker {
       const rows = image.rows || 1;
 
       return {
+        id: image.id,
         image: await this.loadImage(image.image),
         cols, rows,
         spriteWidth: width / cols,
@@ -68,8 +79,9 @@ export class ImagePacker {
       return size2 - size1;
     });
 
+    const slots: { id: string; slot: Slot }[] = [];
     imageInfos.forEach(imageInfo => {
-      const { image, spriteWidth, spriteHeight, count } = imageInfo;
+      const { id, image, spriteWidth, spriteHeight, count } = imageInfo;
       const slot = allocator.allocate(spriteWidth, spriteHeight, count);
       if (slot.textureIndex >= canvases.length) {
         const canvas = new OffscreenCanvas(allocator.maxTextureSize, allocator.maxTextureSize);
@@ -90,8 +102,14 @@ export class ImagePacker {
         const y = slot.y + Math.floor(i / slotRows) * spriteHeight;
         ctx.drawImage(image, 0, 0, spriteWidth, spriteHeight, x, y, spriteWidth, spriteHeight);
       }
+      slots.push({ id, slot });
     });
+    slots.sort((a, b) => a.id.localeCompare(b.id));
+    const compact: [string, string][] = slots.map(({ id, slot }) => ([id, TextureSlot.getTag(slot)]));
 
-    return canvases;
+    const images = await Promise.all(canvases.map(canvas => createImageBitmap(canvas)));
+    return {
+      images, slots, compact: Object.fromEntries(compact), textureSize: allocator.maxTextureSize,
+    };
   }
 }

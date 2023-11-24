@@ -30,19 +30,20 @@ export class TextureSlotAllocator {
   private allocatedTextures: Record<string, TextureSlot> = {};
   minTextureSize: TextureSize;
   maxTextureSize: TextureSize;
+  numTextureSheets: number;
 
   constructor({ numTextureSheets, minTextureSize, maxTextureSize }: Props = {}, gl?: WebGL2RenderingContext) {
-    let numTextureSheetsToAllocate = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
+    this.numTextureSheets = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
     this.minTextureSize = minTextureSize ?? DEFAULT_MIN_TEXTURE_SIZE;
     this.maxTextureSize = maxTextureSize ?? DEFAULT_MAX_TEXTURE_SIZE;
 
     if (gl) {
-      numTextureSheetsToAllocate = Math.min(numTextureSheetsToAllocate, gl.getParameter(WebGL2RenderingContext.MAX_TEXTURE_IMAGE_UNITS));
+      this.numTextureSheets = Math.min(this.numTextureSheets, gl.getParameter(WebGL2RenderingContext.MAX_TEXTURE_IMAGE_UNITS));
       this.maxTextureSize = Math.min(this.maxTextureSize, gl.getParameter(WebGL2RenderingContext.MAX_TEXTURE_SIZE));
       this.minTextureSize = Math.min(this.minTextureSize, this.maxTextureSize);
     }
 
-    for (let i = 0; i < numTextureSheetsToAllocate; i++) {
+    for (let i = 0; i < this.numTextureSheets; i++) {
       this.textureSlots.insert(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
         min: this.minTextureSize,
         max: this.maxTextureSize,
