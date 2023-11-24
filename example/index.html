@@ -9,15 +9,35 @@
     }
   </style>
   <body>
-    <canvas id="root"> </canvas>
+    <h1 id="h1">Example packing 100 random sprites (size 1-1000)</h1>
+    <div id="root"> </div>
   </body>
   <script>
     window.global = globalThis;
   </script>
   <script type="module">
-    import { testCanvas, hello } from './build/index.js';
+    import { TextureSlotAllocator } from './build/index.js';
+    const root = document.getElementById('root');
+    const worker = new Worker('worker.mjs', { type: 'module' });
 
-    window.engine = testCanvas(document.querySelector('#root'));
-    hello();
+    worker.onmessage = function(event) {
+      const images = event.data;
+      root.innerHTML = "";
+      for (const image of images) {
+        const c = document.createElement('canvas');
+        c.width = image.width;
+        c.height = image.height;
+        c.style.width = "512px";
+        c.style.height = "512px";
+        c.style.border = "2px solid black";
+        c.getContext("2d").drawImage(image, 0, 0);
+        root.appendChild(c);
+      }
+    };
+
+    // To start the worker, post a message to it
+    worker.postMessage('start');
+
+
   </script>
 </html>

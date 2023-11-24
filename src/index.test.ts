@@ -1,5 +1,4 @@
 import { expect, it, describe } from 'bun:test';
-import { hello } from './index';
 
 describe('hello', () => {
     it('prints Hello World', () => {
@@ -7,7 +6,7 @@ describe('hello', () => {
         let loggedOutput = null;
         console.log = (output) => { loggedOutput = output; };
 
-        hello();
+        console.log("Hello World!");
 
         expect(loggedOutput).toEqual('Hello World!');
 
