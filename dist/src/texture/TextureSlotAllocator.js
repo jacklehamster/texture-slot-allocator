@@ -21,6 +21,7 @@ export class TextureSlotAllocator {
     minTextureSize;
     maxTextureSize;
     numTextureSheets;
+    initialSlots = [];
     constructor({ numTextureSheets, minTextureSize, maxTextureSize } = {}, gl) {
         this.numTextureSheets = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
         this.minTextureSize = minTextureSize ?? DEFAULT_MIN_TEXTURE_SIZE;
@@ -31,11 +32,12 @@ export class TextureSlotAllocator {
             this.minTextureSize = Math.min(this.minTextureSize, this.maxTextureSize);
         }
         for (let i = 0; i < this.numTextureSheets; i++) {
-            this.textureSlots.insert(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
+            this.initialSlots.push(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
                 min: this.minTextureSize,
                 max: this.maxTextureSize,
             }));
         }
+        this.initialSlots.forEach(slot => this.textureSlots.insert(slot));
     }
     allocate(w, h, count = 1) {
         const { size, slotNumber, x, y, textureIndex } = this.allocateHelper(w, h, count);
@@ -47,6 +49,9 @@ export class TextureSlotAllocator {
         }
         const textureSlot = this.allocatedTextures[TextureSlot.getTag(slot)];
         this.deallocateHelper(textureSlot);
+    }
+    get countUsedTextureSheets() {
+        return this.initialSlots.filter(slot => this.isSlotUsed(slot)).length;
     }
     allocateHelper(w, h, count = 1) {
         const flexSizes = getFlexSizes(w, h, count, { min: this.minTextureSize, max: this.maxTextureSize });

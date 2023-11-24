@@ -16,9 +16,11 @@ export declare class TextureSlotAllocator {
     minTextureSize: TextureSize;
     maxTextureSize: TextureSize;
     numTextureSheets: number;
+    private readonly initialSlots;
     constructor({ numTextureSheets, minTextureSize, maxTextureSize }?: Props, gl?: WebGL2RenderingContext);
     allocate(w: number, h: number, count?: number): Slot;
     deallocate(slot: Slot): void;
+    get countUsedTextureSheets(): number;
     private allocateHelper;
     private findSlot;
     private calculateRatio;

@@ -31,6 +31,7 @@ export class TextureSlotAllocator {
   minTextureSize: TextureSize;
   maxTextureSize: TextureSize;
   numTextureSheets: number;
+  private readonly initialSlots: TextureSlot[] = [];
 
   constructor({ numTextureSheets, minTextureSize, maxTextureSize }: Props = {}, gl?: WebGL2RenderingContext) {
     this.numTextureSheets = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
@@ -44,11 +45,13 @@ export class TextureSlotAllocator {
     }
 
     for (let i = 0; i < this.numTextureSheets; i++) {
-      this.textureSlots.insert(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
+      this.initialSlots.push(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
         min: this.minTextureSize,
         max: this.maxTextureSize,
       }));
     }
+
+    this.initialSlots.forEach(slot => this.textureSlots.insert(slot));
   }
 
   allocate(w: number, h: number, count: number = 1): Slot {
@@ -62,6 +65,10 @@ export class TextureSlotAllocator {
     }
     const textureSlot = this.allocatedTextures[TextureSlot.getTag(slot)];
     this.deallocateHelper(textureSlot);
+  }
+
+  get countUsedTextureSheets(): number {
+    return this.initialSlots.filter(slot => this.isSlotUsed(slot)).length;
   }
 
   private allocateHelper(w: number, h: number, count: number = 1): TextureSlot {
