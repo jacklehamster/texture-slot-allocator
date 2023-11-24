@@ -1,6 +1,6 @@
 {
   "name": "texture-slot-allocator",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "tsc": "tsc",
