@@ -8,13 +8,13 @@ self.onmessage = async function(event) {
     const ctx = canvas.getContext('2d');
     ctx.lineWidth = '3';
     ctx.strokeStyle = 'blue';
-    ctx.font = '40px Arial';
+    ctx.font = '100px Arial';
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, width, height);
     ctx.rect(5, 5, width - 5, height - 5);
     ctx.stroke();
     ctx.fillStyle = `black`;
-    ctx.fillText(`${canvas.width}x${canvas.height}`, 30, 50);
+    ctx.fillText(`${canvas.width}x${canvas.height}`, 30, 100);
     return canvas;
   }
 
