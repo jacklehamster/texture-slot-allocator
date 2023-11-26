@@ -28,8 +28,6 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "avl": "^1.5.3",
-    "gl": "^6.0.2",
-    "gl-matrix": "^3.4.3"
+    "avl": "^1.5.3"
   }
 }
