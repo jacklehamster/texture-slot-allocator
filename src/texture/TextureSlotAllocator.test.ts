@@ -68,7 +68,7 @@ describe('TextureSlotAllocator', () => {
   it('should correctly allocate into the 2nd texture sheet', () => {
     allocator = new TextureSlotAllocator({ numTextureSheets: 2 });
 
-    // Allocate a 1st small slot.
+    // Allocate a 1st slot.
     const slot1 = allocator.allocate(3000, 3000, 1);
     expect(slot1.size).toEqual([4096, 4096]);
     expect(slot1.textureIndex).toBe(0);
@@ -87,5 +87,18 @@ describe('TextureSlotAllocator', () => {
     expect(allocator.textureSlots.size).toBe(2);
     expect(allocator.textureSlots.at(0)!.key!.size).toEqual([4096, 4096]);
     expect(allocator.textureSlots.at(1)!.key!.size).toEqual([4096, 4096]);
+  });
+
+
+  it('should correctly allocate into the 2nd texture sheet because we exclude the first one', () => {
+    allocator = new TextureSlotAllocator({
+      numTextureSheets: 2,
+      excludeTexture: (textureIndex: number) => textureIndex === 0,
+    });
+
+    // Allocate a 1st small slot.
+    const slot2 = allocator.allocate(20, 5, 10);
+    expect(slot2.size).toEqual([64, 128]);
+    expect(slot2.textureIndex).toBe(1);
   });
 });

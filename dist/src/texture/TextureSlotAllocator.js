@@ -22,7 +22,7 @@ export class TextureSlotAllocator {
     maxTextureSize;
     numTextureSheets;
     initialSlots = [];
-    constructor({ numTextureSheets, minTextureSize, maxTextureSize } = {}, gl) {
+    constructor({ numTextureSheets, minTextureSize, maxTextureSize, excludeTexture } = {}, gl) {
         this.numTextureSheets = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
         this.minTextureSize = minTextureSize ?? DEFAULT_MIN_TEXTURE_SIZE;
         this.maxTextureSize = maxTextureSize ?? DEFAULT_MAX_TEXTURE_SIZE;
@@ -32,6 +32,9 @@ export class TextureSlotAllocator {
             this.minTextureSize = Math.min(this.minTextureSize, this.maxTextureSize);
         }
         for (let i = 0; i < this.numTextureSheets; i++) {
+            if (excludeTexture?.(i)) {
+                continue;
+            }
             this.initialSlots.push(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
                 min: this.minTextureSize,
                 max: this.maxTextureSize,

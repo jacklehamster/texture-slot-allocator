@@ -15,6 +15,7 @@ export interface Props {
   numTextureSheets?: number;
   minTextureSize?: TextureSize;
   maxTextureSize?: TextureSize;
+  excludeTexture?: (textureIndex: number) => boolean;
 }
 
 export class TextureSlotAllocator {
@@ -33,7 +34,7 @@ export class TextureSlotAllocator {
   numTextureSheets: number;
   private readonly initialSlots: TextureSlot[] = [];
 
-  constructor({ numTextureSheets, minTextureSize, maxTextureSize }: Props = {}, gl?: WebGL2RenderingContext) {
+  constructor({ numTextureSheets, minTextureSize, maxTextureSize, excludeTexture }: Props = {}, gl?: WebGL2RenderingContext) {
     this.numTextureSheets = numTextureSheets ?? DEFAULT_NUM_TEXTURE_SHEETS;
     this.minTextureSize = minTextureSize ?? DEFAULT_MIN_TEXTURE_SIZE;
     this.maxTextureSize = maxTextureSize ?? DEFAULT_MAX_TEXTURE_SIZE;
@@ -45,6 +46,9 @@ export class TextureSlotAllocator {
     }
 
     for (let i = 0; i < this.numTextureSheets; i++) {
+      if (excludeTexture?.(i)) {
+        continue;
+      }
       this.initialSlots.push(new TextureSlot([this.maxTextureSize, this.maxTextureSize], i, undefined, {
         min: this.minTextureSize,
         max: this.maxTextureSize,

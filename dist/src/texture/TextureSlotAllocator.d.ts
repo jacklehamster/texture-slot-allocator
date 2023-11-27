@@ -9,6 +9,7 @@ export interface Props {
     numTextureSheets?: number;
     minTextureSize?: TextureSize;
     maxTextureSize?: TextureSize;
+    excludeTexture?: (textureIndex: number) => boolean;
 }
 export declare class TextureSlotAllocator {
     textureSlots: AVLTree<TextureSlot, TextureSlot>;
@@ -17,7 +18,7 @@ export declare class TextureSlotAllocator {
     maxTextureSize: TextureSize;
     numTextureSheets: number;
     private readonly initialSlots;
-    constructor({ numTextureSheets, minTextureSize, maxTextureSize }?: Props, gl?: WebGL2RenderingContext);
+    constructor({ numTextureSheets, minTextureSize, maxTextureSize, excludeTexture }?: Props, gl?: WebGL2RenderingContext);
     allocate(w: number, h: number, count?: number): Slot;
     deallocate(slot: Slot): void;
     get countUsedTextureSheets(): number;
