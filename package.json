@@ -1,13 +1,13 @@
 {
   "name": "texture-slot-allocator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "module": "src/index.ts",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
     "node": ">=14.0.0"
-  },  
+  },
   "scripts": {
     "tsc": "tsc",
     "start": "bun run index.ts",
