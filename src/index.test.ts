@@ -3,8 +3,8 @@ import { expect, it, describe } from 'bun:test';
 describe('hello', () => {
     it('prints Hello World', () => {
         const log = console.log;
-        let loggedOutput = null;
-        console.log = (output) => { loggedOutput = output; };
+        let loggedOutput: string | undefined;
+        console.log = (output: string) => { loggedOutput = output; };
 
         console.log("Hello World!");
 

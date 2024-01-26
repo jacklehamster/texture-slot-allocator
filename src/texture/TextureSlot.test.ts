@@ -17,7 +17,7 @@ describe('TextureSlot', () => {
     const slotsPerColumn = MAX_TEXTURE_SIZE / (2 * MIN_TEXTURE_SIZE);
     const expectedX = (20 % slotsPerRow) * (2 * MIN_TEXTURE_SIZE);
     const expectedY = (Math.floor(20 / slotsPerColumn) % slotsPerRow) * (2 * MIN_TEXTURE_SIZE);
-    const expectedPosition = { x: expectedX, y: expectedY, size: [2 * MIN_TEXTURE_SIZE, 2 * MIN_TEXTURE_SIZE], textureIndex: slot.textureIndex };
+    const expectedPosition: { x: number, y: number, size: [number, number], textureIndex: TextureIndex } = { x: expectedX, y: expectedY, size: [2 * MIN_TEXTURE_SIZE, 2 * MIN_TEXTURE_SIZE], textureIndex: slot.textureIndex };
     expect(slot.getPosition()).toEqual(expectedPosition);
   });
 
