@@ -1,14 +1,19 @@
 {
   "name": "texture-slot-allocator",
   "description": "Texture slot allocator ",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "module": "src/index.ts",
-  "keywords": ["webgl", "texture", "spritesheet", "typescript"],
+  "keywords": [
+    "webgl",
+    "texture",
+    "spritesheet",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jacklehamster/texture-slot-allocator"
   },
-  "homepage": "https://dev.to/jacklehamster/webgl-texture-slots-allocation-4cg5",  
+  "homepage": "https://dev.to/jacklehamster/webgl-texture-slots-allocation-4cg5",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
