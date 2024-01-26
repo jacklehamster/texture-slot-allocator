@@ -28,7 +28,10 @@
     "baseUrl": ".",
     "paths": {
       "*": ["src/*"]
-    }
+    },
+    "rootDir": "",
+    "moduleDetection": "force",
+    "composite": true,
   },
   "include": ["src", "bundler"],
   "exclude": ["node_modules", "build"]
