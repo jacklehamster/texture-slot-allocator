@@ -1,1 +1,1 @@
-npm run np
+bun run np

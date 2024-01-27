@@ -33,7 +33,7 @@
     "httpSample": "bun run samples/server.tsx",
     "make-repo-ssh": "./make-repo-ssh.sh",
     "commit-all": "./commit-all.sh",
-    "np": "npm run bundle && npm run build && npm run make-repo-ssh && npm run commit-all && np patch"
+    "np": "bun run bundle && bun run build && bun run make-repo-ssh && bun run commit-all && np patch"
   },
   "files": [
     "resources",

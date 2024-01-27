@@ -29,10 +29,10 @@
     "paths": {
       "*": ["src/*"]
     },
-    "rootDir": "",
+    "rootDir": "src",
     "moduleDetection": "force",
     "composite": true,
   },
-  "include": ["src", "bundler"],
+  "include": ["src"],
   "exclude": ["node_modules", "build"]
 }
