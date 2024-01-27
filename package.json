@@ -26,8 +26,7 @@
     "tsc": "tsc",
     "start": "bun run index.ts",
     "test": "bun test",
-    "bundle": "rm -rf build/*.* && bun run bundler/bundler.ts && bun run test",
-    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build": "rm -rf dist/*.* && bun run bundler/bundler.ts && bun run test && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
     "list": "bun run samples/list-scripts.tsx",
     "example": "cd example && bun start && cd ..",
@@ -35,7 +34,7 @@
     "httpSample": "bun run samples/server.tsx",
     "make-repo-ssh": "./make-repo-ssh.sh",
     "commit-all": "./commit-all.sh",
-    "np": "bun run bundle && bun run build && bun run make-repo-ssh && bun run commit-all && np patch"
+    "np": "bun run build && bun run make-repo-ssh && bun run commit-all && np patch"
   },
   "files": [
     "dist/*.js",

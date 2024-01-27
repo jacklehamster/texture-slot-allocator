@@ -1,4 +1,4 @@
-import { TextureSlotAllocator, Props } from "../dist/src";
+import { TextureSlotAllocator, Props } from "texture-slot-allocator";
 import Bao from "baojs";
 import serveStatic from "serve-static-bun";
 

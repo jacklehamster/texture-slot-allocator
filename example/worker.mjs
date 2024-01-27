@@ -1,4 +1,4 @@
-import {ImagePacker} from './build/index.js';
+import {ImagePacker} from './dist/index.js';
 
 self.onmessage = async function(event) {
   const imagePacker = new ImagePacker();

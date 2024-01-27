@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDirs": ["example"],
     "lib": ["ESNext"],
     "module": "esnext",
     "target": "esnext",
@@ -15,12 +16,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "types": [
-      "bun-types" // add Bun global
-    ]
+    "types": [ "bun-types" ]
   },
   "include": [
-    "example/**/*.ts",
-    "build/*.js"
+    "**/*.ts",
   ]
 }
