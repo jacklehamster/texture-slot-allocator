@@ -1,5 +1,5 @@
-import { Slot, TextureSize } from "texture/TextureSlot";
-import { Props } from "texture/TextureSlotAllocator";
+import { Slot, TextureSize } from "../texture/TextureSlot";
+import { Props } from "../texture/TextureSlotAllocator";
 /**
  * ImagePacker
  *

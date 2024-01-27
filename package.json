@@ -14,6 +14,8 @@
     "url": "https://github.com/jacklehamster/texture-slot-allocator"
   },
   "homepage": "https://dev.to/jacklehamster/webgl-texture-slots-allocation-4cg5",
+  "author": "Jack Le Hamster",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,9 +38,8 @@
     "np": "bun run bundle && bun run build && bun run make-repo-ssh && bun run commit-all && np patch"
   },
   "files": [
-    "resources",
-    "dist/**/*.js",
-    "dist/**/*.d.ts"
+    "dist/*.js",
+    "dist/*.d.ts"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.6",
@@ -52,6 +53,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "avl": "^1.5.3"
