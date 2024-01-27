@@ -1,9 +1,9 @@
-import { TextureSlotAllocator, Props } from "texture-slot-allocator";
+import { TextureSlotAllocator } from "texture-slot-allocator";
 import Bao from "baojs";
 import serveStatic from "serve-static-bun";
 
 const app = new Bao();
-const props: Props = {
+const props = {
   numTextureSheets: 1,
   maxTextureSize: 512,
   minTextureSize: 16,
