@@ -3,8 +3,8 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run build-icon && bun run build && bun run index.ts --watch",
-    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js",
+    "start": "bun run build && bun run index.ts --watch",
+    "build": "bun run build-icon && bun build --target=node ./src/index.ts --outfile=dist/index.js",
     "build-icon": "png-to-ico ../icon.png > favicon.ico"
   },
   "devDependencies": {
