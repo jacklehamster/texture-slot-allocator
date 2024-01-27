@@ -18,7 +18,7 @@
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/src/index.d.ts",
+  "types": "types/src/index.d.ts",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -38,8 +38,8 @@
     "np": "bun run build && bun run build:example && bun run make-repo-ssh && bun run commit-all && echo y | np patch"
   },
   "files": [
-    "dist/*.js",
-    "dist/src/*.d.ts"
+    "dist",
+    "types"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.6",
