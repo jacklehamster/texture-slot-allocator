@@ -1,6 +1,6 @@
 async function bundle() {
   await Bun.build({
-    entrypoints: ['./index.ts'],
+    entrypoints: ['./src/index.ts'],
     outdir: './dist',
     minify: true,
     sourcemap: "external",
