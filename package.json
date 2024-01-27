@@ -35,11 +35,11 @@
     "httpSample": "bun run samples/server.tsx",
     "make-repo-ssh": "./make-repo-ssh.sh",
     "commit-all": "./commit-all.sh",
-    "np": "bun run build && bun run build:example && bun run make-repo-ssh && bun run commit-all && np patch"
+    "np": "bun run build && bun run build:example && bun run make-repo-ssh && bun run commit-all && echo y | np patch"
   },
   "files": [
     "dist/*.js",
-    "dist/*.d.ts"
+    "dist/src/*.d.ts"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.6",
