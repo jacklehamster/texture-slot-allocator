@@ -3,18 +3,18 @@ var y = function(q, J = (Y) => Y.key) {
   var Y = [];
   return v(q, "", true, (K) => Y.push(K), J), Y.join("");
 };
-var D = function(q) {
+var P = function(q) {
   if (q === null)
     return true;
-  var J = H(q.left), Y = H(q.right);
-  if (Math.abs(J - Y) <= 1 && D(q.left) && D(q.right))
+  var J = D(q.left), Y = D(q.right);
+  if (Math.abs(J - Y) <= 1 && P(q.left) && P(q.right))
     return true;
   return false;
 };
 var U = function(q, J, Y, K, $) {
-  const Q = $ - K;
-  if (Q > 0) {
-    const O = K + Math.floor(Q / 2), G = J[O], C = Y[O], Z = { key: G, data: C, parent: q };
+  const C = $ - K;
+  if (C > 0) {
+    const O = K + Math.floor(C / 2), G = J[O], Q = Y[O], Z = { key: G, data: Q, parent: q };
     return Z.left = U(Z, J, Y, K, O), Z.right = U(Z, J, Y, O + 1, $), Z;
   }
   return null;
@@ -25,60 +25,60 @@ var _ = function(q) {
   const J = _(q.left), Y = _(q.right);
   return q.balanceFactor = J - Y, Math.max(J, Y) + 1;
 };
-var I = function(q, J, Y, K, $) {
+var W = function(q, J, Y, K, $) {
   if (Y >= K)
     return;
-  const Q = q[Y + K >> 1];
+  const C = q[Y + K >> 1];
   let O = Y - 1, G = K + 1;
   while (true) {
     do
       O++;
-    while ($(q[O], Q) < 0);
+    while ($(q[O], C) < 0);
     do
       G--;
-    while ($(q[G], Q) > 0);
+    while ($(q[G], C) > 0);
     if (O >= G)
       break;
-    let C = q[O];
-    q[O] = q[G], q[G] = C, C = J[O], J[O] = J[G], J[G] = C;
+    let Q = q[O];
+    q[O] = q[G], q[G] = Q, Q = J[O], J[O] = J[G], J[G] = Q;
   }
-  I(q, J, Y, G, $), I(q, J, G + 1, K, $);
+  W(q, J, Y, G, $), W(q, J, G + 1, K, $);
 };
-var A = function(q, J) {
+var E = function(q, J) {
   return Math.max(J, Math.pow(2, Math.ceil(Math.log(q) / Math.log(2))));
 };
-var N = function(q, J, Y, K) {
+var T = function(q, J, Y, K) {
   if (Y < 1)
     throw new Error("Invalid count");
-  const $ = A(q, K.min), Q = A(J, K.min), O = new Map;
+  const $ = E(q, K.min), C = E(J, K.min), O = new Map;
   let G = K.min;
-  for (let C = 1;C <= Y; C++) {
-    G = A($ * C, K.min);
-    const Z = A(Q * Math.ceil(Y / C), K.min);
+  for (let Q = 1;Q <= Y; Q++) {
+    G = E($ * Q, K.min);
+    const Z = E(C * Math.ceil(Y / Q), K.min);
     O.set(G, Z);
   }
-  for (let C = G;C <= K.max; C *= 2)
-    if (!O.has(C))
-      O.set(C, Q);
+  for (let Q = G;Q <= K.max; Q *= 2)
+    if (!O.has(Q))
+      O.set(Q, C);
   return O;
 };
 var v = function(q, J, Y, K, $) {
   if (q) {
     K(`${J}${Y ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}${$(q)}\n`);
-    const Q = J + (Y ? "    " : "\u2502   ");
+    const C = J + (Y ? "    " : "\u2502   ");
     if (q.left)
-      v(q.left, Q, false, K, $);
+      v(q.left, C, false, K, $);
     if (q.right)
-      v(q.right, Q, true, K, $);
+      v(q.right, C, true, K, $);
   }
 };
-var H = function(q) {
-  return q ? 1 + Math.max(H(q.left), H(q.right)) : 0;
+var D = function(q) {
+  return q ? 1 + Math.max(D(q.left), D(q.right)) : 0;
 };
 var x = function(q, J) {
   return q > J ? 1 : q < J ? -1 : 0;
 };
-var W = function(q) {
+var I = function(q) {
   var J = q.right;
   if (q.right = J.left, J.left)
     J.left.parent = q;
@@ -93,7 +93,7 @@ var W = function(q) {
     J.balanceFactor += q.balanceFactor;
   return J;
 };
-var E = function(q) {
+var A = function(q) {
   var J = q.left;
   if (q.left = J.right, q.left)
     q.left.parent = q;
@@ -109,7 +109,7 @@ var E = function(q) {
   return J;
 };
 
-class F {
+class M {
   constructor(q, J = false) {
     this._comparator = q || x, this._root = null, this._size = 0, this._noDuplicates = !!J;
   }
@@ -177,15 +177,15 @@ class F {
     return this;
   }
   range(q, J, Y, K) {
-    const $ = [], Q = this._comparator;
+    const $ = [], C = this._comparator;
     let O = this._root, G;
     while ($.length !== 0 || O)
       if (O)
         $.push(O), O = O.left;
       else {
-        if (O = $.pop(), G = Q(O.key, J), G > 0)
+        if (O = $.pop(), G = C(O.key, J), G > 0)
           break;
-        else if (Q(O.key, q) >= 0) {
+        else if (C(O.key, q) >= 0) {
           if (Y.call(K, O))
             return this;
         }
@@ -295,28 +295,28 @@ class F {
   insert(q, J) {
     if (!this._root)
       return this._root = { parent: null, left: null, right: null, balanceFactor: 0, key: q, data: J }, this._size++, this._root;
-    var Y = this._comparator, K = this._root, $ = null, Q = 0;
+    var Y = this._comparator, K = this._root, $ = null, C = 0;
     if (this._noDuplicates)
       while (K)
-        if (Q = Y(q, K.key), $ = K, Q === 0)
+        if (C = Y(q, K.key), $ = K, C === 0)
           return null;
-        else if (Q < 0)
+        else if (C < 0)
           K = K.left;
         else
           K = K.right;
     else
       while (K)
-        if (Q = Y(q, K.key), $ = K, Q <= 0)
+        if (C = Y(q, K.key), $ = K, C <= 0)
           K = K.left;
         else
           K = K.right;
     var O = { left: null, right: null, balanceFactor: 0, parent: $, key: q, data: J }, G;
-    if (Q <= 0)
+    if (C <= 0)
       $.left = O;
     else
       $.right = O;
     while ($) {
-      if (Q = Y($.key, q), Q < 0)
+      if (C = Y($.key, q), C < 0)
         $.balanceFactor -= 1;
       else
         $.balanceFactor += 1;
@@ -324,14 +324,14 @@ class F {
         break;
       else if ($.balanceFactor < -1) {
         if ($.right.balanceFactor === 1)
-          E($.right);
-        if (G = W($), $ === this._root)
+          A($.right);
+        if (G = I($), $ === this._root)
           this._root = G;
         break;
       } else if ($.balanceFactor > 1) {
         if ($.left.balanceFactor === -1)
-          W($.left);
-        if (G = E($), $ === this._root)
+          I($.left);
+        if (G = A($), $ === this._root)
           this._root = G;
         break;
       }
@@ -352,16 +352,16 @@ class F {
         J = J.right;
     if (!J)
       return null;
-    var $ = J.key, Q, O;
+    var $ = J.key, C, O;
     if (J.left) {
-      Q = J.left;
-      while (Q.left || Q.right) {
-        while (Q.right)
-          Q = Q.right;
-        if (J.key = Q.key, J.data = Q.data, Q.left)
-          J = Q, Q = Q.left;
+      C = J.left;
+      while (C.left || C.right) {
+        while (C.right)
+          C = C.right;
+        if (J.key = C.key, J.data = C.data, C.left)
+          J = C, C = C.left;
       }
-      J.key = Q.key, J.data = Q.data, J = Q;
+      J.key = C.key, J.data = C.data, J = C;
     }
     if (J.right) {
       O = J.right;
@@ -373,28 +373,28 @@ class F {
       }
       J.key = O.key, J.data = O.data, J = O;
     }
-    var G = J.parent, C = J, Z;
+    var G = J.parent, Q = J, Z;
     while (G) {
-      if (G.left === C)
+      if (G.left === Q)
         G.balanceFactor -= 1;
       else
         G.balanceFactor += 1;
       if (G.balanceFactor < -1) {
         if (G.right.balanceFactor === 1)
-          E(G.right);
-        if (Z = W(G), G === this._root)
+          A(G.right);
+        if (Z = I(G), G === this._root)
           this._root = Z;
         G = Z;
       } else if (G.balanceFactor > 1) {
         if (G.left.balanceFactor === -1)
-          W(G.left);
-        if (Z = E(G), G === this._root)
+          I(G.left);
+        if (Z = A(G), G === this._root)
           this._root = Z;
         G = Z;
       }
       if (G.balanceFactor === -1 || G.balanceFactor === 1)
         break;
-      C = G, G = G.parent;
+      Q = G, G = G.parent;
     }
     if (J.parent)
       if (J.parent.left === J)
@@ -410,17 +410,17 @@ class F {
       throw new Error("bulk-load: tree is not empty");
     const K = q.length;
     if (Y)
-      I(q, J, 0, K - 1, this._comparator);
+      W(q, J, 0, K - 1, this._comparator);
     return this._root = U(null, q, J, 0, K), _(this._root), this._size = K, this;
   }
   isBalanced() {
-    return D(this._root);
+    return P(this._root);
   }
   toString(q) {
     return y(this._root, q);
   }
 }
-F.default = F;
+M.default = M;
 
 class B {
   size;
@@ -433,15 +433,15 @@ class B {
   textureSizeLimits;
   constructor(q, J, Y, K) {
     this.textureSizeLimits = Y?.textureSizeLimits ?? K ?? { min: b, max: k }, this.size = q, this.slotNumber = J, this.parent = Y, this.sibbling = undefined;
-    const { x: $, y: Q, textureIndex: O } = this.calculatePosition(q, J);
-    this.x = $, this.y = Q, this.textureIndex = O;
+    const { x: $, y: C, textureIndex: O } = this.calculatePosition(q, J);
+    this.x = $, this.y = C, this.textureIndex = O;
   }
   calculateTextureIndex(q, J) {
     const [Y, K] = q, $ = this.textureSizeLimits.max / Y * (this.textureSizeLimits.max / K);
     return Math.floor(J / $);
   }
   calculatePosition(q, J) {
-    const [Y, K] = q, $ = this.textureSizeLimits.max / Y, Q = this.textureSizeLimits.max / K, O = J % $ * Y, G = Math.floor(J / $) % Q * K;
+    const [Y, K] = q, $ = this.textureSizeLimits.max / Y, C = this.textureSizeLimits.max / K, O = J % $ * Y, G = Math.floor(J / $) % C * K;
     return { x: O, y: G, textureIndex: this.calculateTextureIndex(q, J) };
   }
   getTag() {
@@ -451,7 +451,7 @@ class B {
     return `${q.size[0]}x${q.size[1]}-#${q.slotNumber}`;
   }
   static positionToTextureSlot(q, J, Y, K, $) {
-    const [Q, O] = Y, G = $.textureSizeLimits.max / Q, Z = $.textureSizeLimits.max / Q * ($.textureSizeLimits.max / O) * K + J / O * G + q / Q;
+    const [C, O] = Y, G = $.textureSizeLimits.max / C, Z = $.textureSizeLimits.max / C * ($.textureSizeLimits.max / O) * K + J / O * G + q / C;
     return new B(Y, Z, $);
   }
   getPosition() {
@@ -466,18 +466,18 @@ class B {
     return q > this.textureSizeLimits.min;
   }
   splitHorizontally() {
-    const { x: q, y: J, size: Y, textureIndex: K } = this, [$, Q] = Y;
+    const { x: q, y: J, size: Y, textureIndex: K } = this, [$, C] = Y;
     if (!this.canSplitHorizontally())
       throw new Error(`Cannot split texture slot of size ${$} horizontally`);
-    const O = $ / 2, G = B.positionToTextureSlot(q, J, [O, Q], K, this), C = B.positionToTextureSlot(q + O, J, [O, Q], K, this);
-    return G.sibbling = C, C.sibbling = G, [G, C];
+    const O = $ / 2, G = B.positionToTextureSlot(q, J, [O, C], K, this), Q = B.positionToTextureSlot(q + O, J, [O, C], K, this);
+    return G.sibbling = Q, Q.sibbling = G, [G, Q];
   }
   splitVertically() {
-    const { x: q, y: J, size: Y, textureIndex: K } = this, [$, Q] = Y;
+    const { x: q, y: J, size: Y, textureIndex: K } = this, [$, C] = Y;
     if (!this.canSplitVertically())
-      throw new Error(`Cannot split texture slot of size ${Q} vertically`);
-    const O = Q / 2, G = B.positionToTextureSlot(q, J, [$, O], K, this), C = B.positionToTextureSlot(q, J + O, [$, O], K, this);
-    return G.sibbling = C, C.sibbling = G, [G, C];
+      throw new Error(`Cannot split texture slot of size ${C} vertically`);
+    const O = C / 2, G = B.positionToTextureSlot(q, J, [$, O], K, this), Q = B.positionToTextureSlot(q, J + O, [$, O], K, this);
+    return G.sibbling = Q, Q.sibbling = G, [G, Q];
   }
 }
 var m = false;
@@ -486,7 +486,7 @@ var k = 4096;
 var p = 16;
 
 class R {
-  textureSlots = new F((q, J) => {
+  textureSlots = new M((q, J) => {
     const Y = q.size[0] * q.size[1] - J.size[0] * J.size[1];
     if (Y !== 0)
       return Y;
@@ -500,16 +500,16 @@ class R {
   constructor({ numTextureSheets: q, minTextureSize: J, maxTextureSize: Y, excludeTexture: K } = {}, $) {
     if (this.numTextureSheets = q ?? p, this.minTextureSize = J ?? b, this.maxTextureSize = Y ?? k, $)
       this.numTextureSheets = Math.min(this.numTextureSheets, $.getParameter(WebGL2RenderingContext.MAX_TEXTURE_IMAGE_UNITS)), this.maxTextureSize = Math.min(this.maxTextureSize, $.getParameter(WebGL2RenderingContext.MAX_TEXTURE_SIZE)), this.minTextureSize = Math.min(this.minTextureSize, this.maxTextureSize);
-    for (let Q = 0;Q < this.numTextureSheets; Q++) {
-      if (K?.(Q))
+    for (let C = 0;C < this.numTextureSheets; C++) {
+      if (K?.(C))
         continue;
-      this.initialSlots.push(new B([this.maxTextureSize, this.maxTextureSize], Q, undefined, { min: this.minTextureSize, max: this.maxTextureSize }));
+      this.initialSlots.push(new B([this.maxTextureSize, this.maxTextureSize], C, undefined, { min: this.minTextureSize, max: this.maxTextureSize }));
     }
-    this.initialSlots.forEach((Q) => this.textureSlots.insert(Q));
+    this.initialSlots.forEach((C) => this.textureSlots.insert(C));
   }
   allocate(q, J, Y = 1) {
-    const { size: K, slotNumber: $, x: Q, y: O, textureIndex: G } = this.allocateHelper(q, J, Y);
-    return { size: K, slotNumber: $, x: Q, y: O, textureIndex: G };
+    const { size: K, slotNumber: $, x: C, y: O, textureIndex: G } = this.allocateHelper(q, J, Y);
+    return { size: K, slotNumber: $, x: C, y: O, textureIndex: G };
   }
   deallocate(q) {
     if (!this.isSlotUsed(q))
@@ -521,17 +521,17 @@ class R {
     return this.initialSlots.filter((q) => this.isSlotUsed(q)).length;
   }
   allocateHelper(q, J, Y = 1) {
-    const K = N(q, J, Y, { min: this.minTextureSize, max: this.maxTextureSize }), $ = this.findSlot(K);
+    const K = T(q, J, Y, { min: this.minTextureSize, max: this.maxTextureSize }), $ = this.findSlot(K);
     if (!$)
       throw new Error(`Could not find a slot for texture to fit ${Y} sprites of size ${q}x${J}`);
     this.textureSlots.remove($);
-    const [Q, O] = this.bestFit(K, $);
-    return this.fitSlot($, Q, O);
+    const [C, O] = this.bestFit(K, $);
+    return this.fitSlot($, C, O);
   }
   findSlot(q) {
     for (let J = 0;J < this.textureSlots.size; J++) {
-      const K = this.textureSlots.at(J).key, [$, Q] = K.size;
-      if (q.get($) <= Q)
+      const K = this.textureSlots.at(J).key, [$, C] = K.size;
+      if (q.get($) <= C)
         return K;
     }
     return null;
@@ -542,13 +542,13 @@ class R {
   bestFit(q, J) {
     const [Y, K] = J.size;
     let $ = J.textureSizeLimits.max;
-    return q.forEach((Q, O) => {
-      if (O <= Y && Q <= K) {
-        const G = O * Q, C = q.get($) * $;
-        if (G < C)
+    return q.forEach((C, O) => {
+      if (O <= Y && C <= K) {
+        const G = O * C, Q = q.get($) * $;
+        if (G < Q)
           $ = O;
-        else if (G === C) {
-          if (this.calculateRatio(O, Q) < this.calculateRatio($, q.get($)))
+        else if (G === Q) {
+          if (this.calculateRatio(O, C) < this.calculateRatio($, q.get($)))
             $ = O;
         }
       }
@@ -596,14 +596,9 @@ class R {
     }
     return q;
   }
-  listSlots() {
-    this.textureSlots.forEach((q) => {
-      console.log(q.key?.getTag());
-    });
-  }
 }
 
-class T {
+class N {
   q;
   constructor(q = []) {
     this.images = q;
@@ -625,38 +620,38 @@ class T {
   }
   async pack(q = {}) {
     const J = [], Y = await Promise.all(this.images.map(async (G) => {
-      const C = G.image;
-      if (typeof C === "string")
+      const Q = G.image;
+      if (typeof Q === "string")
         throw new Error("ImagePacker: image is not loaded");
-      const Z = C.naturalWidth ?? C.displayWidth ?? C.width?.baseValue?.value ?? C.width, X = C.naturalHeight ?? C.displayHeight ?? C.height?.baseValue?.value ?? C.height, V = G.cols || 1, j = G.rows || 1;
+      const Z = Q.naturalWidth ?? Q.displayWidth ?? Q.width?.baseValue?.value ?? Q.width, X = Q.naturalHeight ?? Q.displayHeight ?? Q.height?.baseValue?.value ?? Q.height, V = G.cols || 1, j = G.rows || 1;
       return { id: G.id, image: await this.loadImage(G.image), cols: V, rows: j, spriteWidth: Z / V, spriteHeight: X / j, count: j * V };
     })), K = new R(q);
-    Y.sort((G, C) => {
+    Y.sort((G, Q) => {
       const Z = G.cols * G.spriteWidth + G.rows * G.spriteHeight;
-      return C.cols * C.spriteWidth + C.rows * C.spriteHeight - Z;
+      return Q.cols * Q.spriteWidth + Q.rows * Q.spriteHeight - Z;
     });
     const $ = [];
     Y.forEach((G) => {
-      const { id: C, image: Z, spriteWidth: X, spriteHeight: V, count: j } = G, M = K.allocate(X, V, j);
-      if (M.textureIndex >= J.length) {
-        const P = new OffscreenCanvas(K.maxTextureSize, K.maxTextureSize);
-        J.push(P);
+      const { id: Q, image: Z, spriteWidth: X, spriteHeight: V, count: j } = G, F = K.allocate(X, V, j);
+      if (F.textureIndex >= J.length) {
+        const H = new OffscreenCanvas(K.maxTextureSize, K.maxTextureSize);
+        J.push(H);
       }
-      const L = J[M.textureIndex].getContext("2d");
+      const L = J[F.textureIndex].getContext("2d");
       if (!L)
         throw new Error("Failed to get 2d context");
       L.imageSmoothingEnabled = true;
-      const [f, w] = M.size, g = Math.floor(f / X), z = Math.floor(w / V);
-      for (let P = 0;P < j; P++) {
-        const S = M.x + P % g * X, h = M.y + Math.floor(P / z) * V;
+      const [f, w] = F.size, g = Math.floor(f / X), z = Math.floor(w / V);
+      for (let H = 0;H < j; H++) {
+        const S = F.x + H % g * X, h = F.y + Math.floor(H / z) * V;
         L.drawImage(Z, 0, 0, X, V, S, h, X, V);
       }
-      $.push({ id: C, slot: M });
-    }), $.sort((G, C) => G.id.localeCompare(C.id));
-    const Q = $.map(({ id: G, slot: C }) => [G, B.getTag(C)]);
-    return { images: await Promise.all(J.map((G) => createImageBitmap(G))), slots: $, compact: Object.fromEntries(Q), textureSize: K.maxTextureSize };
+      $.push({ id: Q, slot: F });
+    }), $.sort((G, Q) => G.id.localeCompare(Q.id));
+    const C = $.map(({ id: G, slot: Q }) => [G, B.getTag(Q)]);
+    return { images: await Promise.all(J.map((G) => createImageBitmap(G))), slots: $, compact: Object.fromEntries(C), textureSize: K.maxTextureSize };
   }
 }
 export {
-  T as ImagePacker
+  N as ImagePacker
 };
