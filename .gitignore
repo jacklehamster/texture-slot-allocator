@@ -115,7 +115,6 @@ out
 # Nuxt.js build / generate output
 
 .nuxt
-# dist
 
 # Gatsby files
 
@@ -173,3 +172,4 @@ out
 
 # dist/
 *.tsbuildinfo
+dist/
