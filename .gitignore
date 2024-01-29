@@ -171,5 +171,5 @@ out
 # IntelliJ based IDEs
 .idea
 
-dist/
+# dist/
 *.tsbuildinfo
