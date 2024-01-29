@@ -5,6 +5,7 @@
 import AVLTree from 'avl';
 import { Slot, TextureSize, TextureSlot } from './TextureSlot';
 import { getFlexSizes } from './TextureUtils';
+import { ITextureSlotAllocator } from './ITextureSlotAllocator';
 
 const DEBUG = false;
 export const DEFAULT_MIN_TEXTURE_SIZE = 16;
@@ -18,7 +19,7 @@ export interface Props {
   excludeTexture?: (textureIndex: number) => boolean;
 }
 
-export class TextureSlotAllocator {
+export class TextureSlotAllocator implements ITextureSlotAllocator {
   //  AVL tree of texture slots, sorted by size
   textureSlots = new AVLTree<TextureSlot, TextureSlot>((slot1, slot2) => {
     const sizeDiff = slot1.size[0] * slot1.size[1] - slot2.size[0] * slot2.size[1];
@@ -186,11 +187,5 @@ export class TextureSlotAllocator {
     }
     //  Return that slot if we can't split it further
     return slot;
-  }
-
-  listSlots() {
-    this.textureSlots.forEach((node) => {
-      console.log(node.key?.getTag());
-    });
   }
 }

@@ -2,6 +2,7 @@
 /// <reference lib="dom.iterable" />
 import AVLTree from 'avl';
 import { Slot, TextureSize, TextureSlot } from './TextureSlot';
+import { ITextureSlotAllocator } from './ITextureSlotAllocator';
 export declare const DEFAULT_MIN_TEXTURE_SIZE = 16;
 export declare const DEFAULT_MAX_TEXTURE_SIZE = 4096;
 export declare const DEFAULT_NUM_TEXTURE_SHEETS = 16;
@@ -11,7 +12,7 @@ export interface Props {
     maxTextureSize?: TextureSize;
     excludeTexture?: (textureIndex: number) => boolean;
 }
-export declare class TextureSlotAllocator {
+export declare class TextureSlotAllocator implements ITextureSlotAllocator {
     textureSlots: AVLTree<TextureSlot, TextureSlot>;
     private allocatedTextures;
     minTextureSize: TextureSize;
@@ -31,5 +32,4 @@ export declare class TextureSlotAllocator {
     private trySplitHorizontally;
     private trySplitVertically;
     private fitSlot;
-    listSlots(): void;
 }
