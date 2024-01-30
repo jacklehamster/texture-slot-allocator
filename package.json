@@ -1,7 +1,7 @@
 {
   "name": "texture-slot-allocator",
   "description": "Texture slot allocator ",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "module": "src/index.ts",
   "keywords": [
     "webgl",
