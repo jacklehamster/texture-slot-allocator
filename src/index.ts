@@ -3,6 +3,6 @@ import { Slot } from "./texture/TextureSlot";
 import { TextureSize, TextureIndex } from "./texture/TextureSlot";
 import { ImagePacker } from "./image/ImagePacker";
 import { ITextureSlotAllocator } from "./texture/ITextureSlotAllocator";
+import { IImagePacker } from "./image/IImagePacker";
 
-export { TextureSlotAllocator, ImagePacker };
-export type { Slot, TextureSize, TextureIndex, ITextureSlotAllocator };
+export { TextureSlotAllocator, ImagePacker, Slot, TextureSize, TextureIndex, ITextureSlotAllocator, IImagePacker };

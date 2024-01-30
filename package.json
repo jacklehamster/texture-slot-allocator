@@ -18,7 +18,7 @@
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
-  "types": "types/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -26,7 +26,7 @@
     "tsc": "tsc",
     "start": "bun run index.ts",
     "test": "bun test",
-    "build": "rm -rf dist/*.* && bun run bundler/bundler.ts && bun run test && bun run build:declaration",
+    "build": "rm -rf dist/*.* && rm -rf *.tsbuildinfo && bun run bundler/bundler.ts && bun run test && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
     "list": "bun run samples/list-scripts.tsx",
     "example": "cd example && bun start && cd ..",
@@ -38,8 +38,7 @@
     "np": "bun run build && bun run build:example && bun run make-repo-ssh && bun run commit-all && echo y | np patch"
   },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "devDependencies": {
     "@types/bun": "^1.0.4",

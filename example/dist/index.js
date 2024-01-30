@@ -3,11 +3,11 @@ var y = function(q, J = (Y) => Y.key) {
   var Y = [];
   return v(q, "", true, (K) => Y.push(K), J), Y.join("");
 };
-var P = function(q) {
+var H = function(q) {
   if (q === null)
     return true;
-  var J = D(q.left), Y = D(q.right);
-  if (Math.abs(J - Y) <= 1 && P(q.left) && P(q.right))
+  var J = P(q.left), Y = P(q.right);
+  if (Math.abs(J - Y) <= 1 && H(q.left) && H(q.right))
     return true;
   return false;
 };
@@ -44,17 +44,17 @@ var W = function(q, J, Y, K, $) {
   }
   W(q, J, Y, G, $), W(q, J, G + 1, K, $);
 };
-var E = function(q, J) {
+var R = function(q, J) {
   return Math.max(J, Math.pow(2, Math.ceil(Math.log(q) / Math.log(2))));
 };
-var T = function(q, J, Y, K) {
+var N = function(q, J, Y, K) {
   if (Y < 1)
     throw new Error("Invalid count");
-  const $ = E(q, K.min), C = E(J, K.min), O = new Map;
+  const $ = R(q, K.min), C = R(J, K.min), O = new Map;
   let G = K.min;
   for (let Q = 1;Q <= Y; Q++) {
-    G = E($ * Q, K.min);
-    const Z = E(C * Math.ceil(Y / Q), K.min);
+    G = R($ * Q, K.min);
+    const Z = R(C * Math.ceil(Y / Q), K.min);
     O.set(G, Z);
   }
   for (let Q = G;Q <= K.max; Q *= 2)
@@ -72,13 +72,13 @@ var v = function(q, J, Y, K, $) {
       v(q.right, C, true, K, $);
   }
 };
-var D = function(q) {
-  return q ? 1 + Math.max(D(q.left), D(q.right)) : 0;
+var P = function(q) {
+  return q ? 1 + Math.max(P(q.left), P(q.right)) : 0;
 };
 var x = function(q, J) {
   return q > J ? 1 : q < J ? -1 : 0;
 };
-var I = function(q) {
+var A = function(q) {
   var J = q.right;
   if (q.right = J.left, J.left)
     J.left.parent = q;
@@ -93,7 +93,7 @@ var I = function(q) {
     J.balanceFactor += q.balanceFactor;
   return J;
 };
-var A = function(q) {
+var E = function(q) {
   var J = q.left;
   if (q.left = J.right, q.left)
     q.left.parent = q;
@@ -109,7 +109,7 @@ var A = function(q) {
   return J;
 };
 
-class M {
+class D {
   constructor(q, J = false) {
     this._comparator = q || x, this._root = null, this._size = 0, this._noDuplicates = !!J;
   }
@@ -324,14 +324,14 @@ class M {
         break;
       else if ($.balanceFactor < -1) {
         if ($.right.balanceFactor === 1)
-          A($.right);
-        if (G = I($), $ === this._root)
+          E($.right);
+        if (G = A($), $ === this._root)
           this._root = G;
         break;
       } else if ($.balanceFactor > 1) {
         if ($.left.balanceFactor === -1)
-          I($.left);
-        if (G = A($), $ === this._root)
+          A($.left);
+        if (G = E($), $ === this._root)
           this._root = G;
         break;
       }
@@ -381,14 +381,14 @@ class M {
         G.balanceFactor += 1;
       if (G.balanceFactor < -1) {
         if (G.right.balanceFactor === 1)
-          A(G.right);
-        if (Z = I(G), G === this._root)
+          E(G.right);
+        if (Z = A(G), G === this._root)
           this._root = Z;
         G = Z;
       } else if (G.balanceFactor > 1) {
         if (G.left.balanceFactor === -1)
-          I(G.left);
-        if (Z = A(G), G === this._root)
+          A(G.left);
+        if (Z = E(G), G === this._root)
           this._root = Z;
         G = Z;
       }
@@ -414,13 +414,13 @@ class M {
     return this._root = U(null, q, J, 0, K), _(this._root), this._size = K, this;
   }
   isBalanced() {
-    return P(this._root);
+    return H(this._root);
   }
   toString(q) {
     return y(this._root, q);
   }
 }
-M.default = M;
+D.default = D;
 
 class B {
   size;
@@ -485,8 +485,8 @@ var b = 16;
 var k = 4096;
 var p = 16;
 
-class R {
-  textureSlots = new M((q, J) => {
+class I {
+  textureSlots = new D((q, J) => {
     const Y = q.size[0] * q.size[1] - J.size[0] * J.size[1];
     if (Y !== 0)
       return Y;
@@ -521,7 +521,7 @@ class R {
     return this.initialSlots.filter((q) => this.isSlotUsed(q)).length;
   }
   allocateHelper(q, J, Y = 1) {
-    const K = T(q, J, Y, { min: this.minTextureSize, max: this.maxTextureSize }), $ = this.findSlot(K);
+    const K = N(q, J, Y, { min: this.minTextureSize, max: this.maxTextureSize }), $ = this.findSlot(K);
     if (!$)
       throw new Error(`Could not find a slot for texture to fit ${Y} sprites of size ${q}x${J}`);
     this.textureSlots.remove($);
@@ -598,7 +598,7 @@ class R {
   }
 }
 
-class N {
+class T {
   q;
   constructor(q = []) {
     this.images = q;
@@ -625,7 +625,7 @@ class N {
         throw new Error("ImagePacker: image is not loaded");
       const Z = Q.naturalWidth ?? Q.displayWidth ?? Q.width?.baseValue?.value ?? Q.width, X = Q.naturalHeight ?? Q.displayHeight ?? Q.height?.baseValue?.value ?? Q.height, V = G.cols || 1, j = G.rows || 1;
       return { id: G.id, image: await this.loadImage(G.image), cols: V, rows: j, spriteWidth: Z / V, spriteHeight: X / j, count: j * V };
-    })), K = new R(q);
+    })), K = new I(q);
     Y.sort((G, Q) => {
       const Z = G.cols * G.spriteWidth + G.rows * G.spriteHeight;
       return Q.cols * Q.spriteWidth + Q.rows * Q.spriteHeight - Z;
@@ -634,16 +634,16 @@ class N {
     Y.forEach((G) => {
       const { id: Q, image: Z, spriteWidth: X, spriteHeight: V, count: j } = G, F = K.allocate(X, V, j);
       if (F.textureIndex >= J.length) {
-        const H = new OffscreenCanvas(K.maxTextureSize, K.maxTextureSize);
-        J.push(H);
+        const M = new OffscreenCanvas(K.maxTextureSize, K.maxTextureSize);
+        J.push(M);
       }
       const L = J[F.textureIndex].getContext("2d");
       if (!L)
         throw new Error("Failed to get 2d context");
       L.imageSmoothingEnabled = true;
-      const [f, w] = F.size, g = Math.floor(f / X), z = Math.floor(w / V);
-      for (let H = 0;H < j; H++) {
-        const S = F.x + H % g * X, h = F.y + Math.floor(H / z) * V;
+      const [f, w] = F.size, z = Math.floor(f / X), g = Math.floor(w / V);
+      for (let M = 0;M < j; M++) {
+        const S = F.x + M % z * X, h = F.y + Math.floor(M / g) * V;
         L.drawImage(Z, 0, 0, X, V, S, h, X, V);
       }
       $.push({ id: Q, slot: F });
@@ -653,5 +653,5 @@ class N {
   }
 }
 export {
-  N as ImagePacker
+  T as ImagePacker
 };

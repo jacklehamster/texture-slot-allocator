@@ -15,6 +15,16 @@ type ImageInfo = {
   cols?: number;
 };
 
+export interface PackResult {
+  images: ImageBitmap[],
+  slots: {
+    id: string;
+    slot: Slot,
+  }[],
+  compact: Record<string, string>,
+  textureSize: TextureSize,
+}
+
 export class ImagePacker {
   constructor(public readonly images: ImageInfo[] = []) {
   }
@@ -40,15 +50,7 @@ export class ImagePacker {
     return await this.getImage(image);
   }
 
-  async pack(props: Props = {}): Promise<{
-    images: ImageBitmap[],
-    slots: {
-      id: string;
-      slot: Slot,
-    }[],
-    compact: Record<string, string>,
-    textureSize: TextureSize,
-  }> {
+  async pack(props: Props = {}): Promise<PackResult> {
     const canvases: OffscreenCanvas[] = [];
 
     const imageInfos: { id: string, image: CanvasImageSource, cols: number, rows: number, spriteWidth: number, spriteHeight: number, count: number }[] = await Promise.all(this.images.map(async image => {
