@@ -1,6 +1,5 @@
 import { TextureSlotAllocator } from "./texture/TextureSlotAllocator";
-import { Slot } from "./texture/TextureSlot";
-import { TextureSize, TextureIndex } from "./texture/TextureSlot";
+import { TextureSize, TextureIndex, Slot } from "./texture/TextureSlot";
 import { ImagePacker } from "./image/ImagePacker";
 import { ITextureSlotAllocator } from "./texture/ITextureSlotAllocator";
 import { IImagePacker } from "./image/IImagePacker";

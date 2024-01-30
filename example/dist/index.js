@@ -78,7 +78,7 @@ var P = function(q) {
 var x = function(q, J) {
   return q > J ? 1 : q < J ? -1 : 0;
 };
-var A = function(q) {
+var E = function(q) {
   var J = q.right;
   if (q.right = J.left, J.left)
     J.left.parent = q;
@@ -93,7 +93,7 @@ var A = function(q) {
     J.balanceFactor += q.balanceFactor;
   return J;
 };
-var E = function(q) {
+var A = function(q) {
   var J = q.left;
   if (q.left = J.right, q.left)
     q.left.parent = q;
@@ -324,14 +324,14 @@ class D {
         break;
       else if ($.balanceFactor < -1) {
         if ($.right.balanceFactor === 1)
-          E($.right);
-        if (G = A($), $ === this._root)
+          A($.right);
+        if (G = E($), $ === this._root)
           this._root = G;
         break;
       } else if ($.balanceFactor > 1) {
         if ($.left.balanceFactor === -1)
-          A($.left);
-        if (G = E($), $ === this._root)
+          E($.left);
+        if (G = A($), $ === this._root)
           this._root = G;
         break;
       }
@@ -381,14 +381,14 @@ class D {
         G.balanceFactor += 1;
       if (G.balanceFactor < -1) {
         if (G.right.balanceFactor === 1)
-          E(G.right);
-        if (Z = A(G), G === this._root)
+          A(G.right);
+        if (Z = E(G), G === this._root)
           this._root = Z;
         G = Z;
       } else if (G.balanceFactor > 1) {
         if (G.left.balanceFactor === -1)
-          A(G.left);
-        if (Z = E(G), G === this._root)
+          E(G.left);
+        if (Z = A(G), G === this._root)
           this._root = Z;
         G = Z;
       }
